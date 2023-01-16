@@ -1,7 +1,7 @@
 import * as Mantine from "@mantine/core";
 import "@testing-library/jest-dom";
 import { render, RenderResult, screen } from "@testing-library/react";
-import DefaultHeader from "./header";
+import DefaultHeader from "../../src/components/header";
 
 describe("Header component", () => {
   let component: RenderResult;

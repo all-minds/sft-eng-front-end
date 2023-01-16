@@ -18,15 +18,15 @@ export default function Unauthorized({ children }: UnauthorizedProps) {
   const { classes } = useStyles();
 
   return (
-    <Flex style={{ height: "100%" }}>
-      <Container fluid style={{ flex: "1" }} data-testid="content-container">
+    <Flex style={{ height: "100%" }} data-testid="unauthorized-layout">
+      <Container fluid style={{ flex: "1" }} data-testid="unauthorized_content-container">
         {children}
       </Container>
       <MediaQuery smallerThan={"lg"} styles={() => ({ display: "none" })}>
         <Container
           fluid
           className={classes.brandContainer}
-          data-testid="brand-image"
+          data-testid="unauthorized_brand-image"
         >
           oi
         </Container>

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult, screen } from "@testing-library/react";
-import IconButton from "./icon-button";
+import IconButton from "../../src/components/icon-button";
 
 describe("Icon button component", () => {
   let component: RenderResult;

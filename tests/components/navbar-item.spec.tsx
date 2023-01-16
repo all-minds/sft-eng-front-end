@@ -1,7 +1,6 @@
-import * as Mantine from "@mantine/core";
 import "@testing-library/jest-dom";
 import { render, RenderResult, screen } from "@testing-library/react";
-import NavbarItem from "./navbar-item";
+import NavbarItem from "../../src/components/navbar-item";
 import * as Next from "next/router";
 
 describe("Navbar item component", () => {
