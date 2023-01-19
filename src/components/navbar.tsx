@@ -24,8 +24,8 @@ const data: DefaultNavbarItemProps[] = [
   {
     icon: <IconHomeDollar size={16} />,
     color: "blue",
-    label: "Propriedades",
-    to: "/login",
+    label: "Minhas propriedades",
+    to: "/properties",
   },
 ];
 
