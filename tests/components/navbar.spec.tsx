@@ -27,6 +27,6 @@ describe("Navbar component", () => {
   it("Should has at least one navbar item component", async () => {
     const navbarItem = await screen.findAllByTestId("default-navbar-item");
 
-    expect(navbarItem.length).toBeGreaterThan(1);
+    expect(navbarItem.length).toBeGreaterThan(0);
   });
 });

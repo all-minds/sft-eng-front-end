@@ -1,3 +1,4 @@
+import useAuth from "@/hooks/useAuth";
 import { Navbar } from "@mantine/core";
 import {
   IconAlertCircle,
@@ -7,6 +8,8 @@ import {
   IconLogout,
   IconMessages,
 } from "@tabler/icons";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 import IconButton from "./icon-button";
 import DefaultNavbarItem, { DefaultNavbarItemProps } from "./navbar-item";
 
@@ -15,12 +18,12 @@ interface DefaultNavbarProps {
 }
 
 const data: DefaultNavbarItemProps[] = [
-  {
-    icon: <IconDashboard size={16} />,
-    color: "orange",
-    label: "Meus ganhos",
-    to: "/login",
-  },
+  // {
+  //   icon: <IconDashboard size={16} />,
+  //   color: "orange",
+  //   label: "Meus ganhos",
+  //   to: "/",
+  // },
   {
     icon: <IconHomeDollar size={16} />,
     color: "blue",
@@ -30,17 +33,25 @@ const data: DefaultNavbarItemProps[] = [
 ];
 
 export default function DefaultNavbar({ opened }: DefaultNavbarProps) {
+  const { pathname } = useRouter();
+  const isActive = useCallback((to: string) => to === pathname, [pathname]);
+  const { logout } = useAuth();
+
   return (
     <Navbar
       data-testid="default-navbar"
       p="md"
-      hiddenBreakpoint="sm"
+      hiddenBreakpoint="md"
       hidden={!opened}
-      width={{ md: 250, lg: 300 }}
+      width={{ md: 280, lg: 300 }}
     >
       <Navbar.Section grow>
         {data.map((props, index) => (
-          <DefaultNavbarItem {...props} key={index} />
+          <DefaultNavbarItem
+            {...props}
+            active={isActive(props.to)}
+            key={index}
+          />
         ))}
       </Navbar.Section>
       <Navbar.Section>
@@ -48,7 +59,7 @@ export default function DefaultNavbar({ opened }: DefaultNavbarProps) {
           color="red"
           label="Sair"
           icon={<IconLogout size={16} />}
-          onClick={() => {}}
+          onClick={logout}
         />
       </Navbar.Section>
     </Navbar>

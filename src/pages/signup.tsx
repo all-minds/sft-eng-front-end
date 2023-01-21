@@ -1,3 +1,5 @@
+import useAuth from "@/hooks/useAuth";
+import useOwner from "@/hooks/useOwner";
 import Unauthorized from "@/layouts/unauthorized";
 import {
   Button,
@@ -7,7 +9,9 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
+import { FormEvent, FormEventHandler } from "react";
 
 const useStyles = createStyles(({ spacing }) => ({
   container: {
@@ -16,15 +20,46 @@ const useStyles = createStyles(({ spacing }) => ({
   },
 
   content: {
-    gap: spacing.md,
-    display: "flex",
-    flexDirection: "column",
+    "& > form": {
+      gap: spacing.md,
+      display: "flex",
+      flexDirection: "column",
+    },
   },
 }));
+
+interface SignupForm {
+  email: string;
+  name: string;
+  password: string;
+}
 
 export default function Signup() {
   const { classes } = useStyles();
   const { push } = useRouter();
+
+  const { getInputProps, errors, onSubmit } = useForm<SignupForm>({
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Email inválido"),
+      password: (value) => (value.length > 6 ? null : "Senha inválida"),
+      name: (value) => (value ? null : "Digite o nome"),
+    },
+
+    validateInputOnChange: true,
+
+    initialValues: {
+      email: "",
+      name: "",
+      password: "",
+    },
+  });
+  const { createUser, loading } = useAuth();
+  const { createOwner } = useOwner();
+
+  const handleSubmit = async (values: SignupForm) => {
+    await createUser(values);
+    createOwner();
+  };
 
   return (
     <Center h="100%">
@@ -34,26 +69,38 @@ export default function Signup() {
         </Text>
         {/* <Text mb={"md"}>Você pode ter acesso as funcionalidades</Text> */}
         <div className={classes.content}>
-          <TextInput
-            label="Nome completo"
-            data-testid="signup_fullName"
-            placeholder="Ex: ze@gmail.com"
-          />
-          <TextInput
-            type="email"
-            label="Email"
-            data-testid="signup_email"
-            placeholder="Ex: ze@gmail.com"
-          />
-          <TextInput
-            type="password"
-            label="Senha"
-            data-testid="signup_password"
-            placeholder="Ex: pass123"
-          />
-          <Button fullWidth data-testid="signup_submit">
-            Cadastrar
-          </Button>
+          <form onSubmit={onSubmit(handleSubmit)}>
+            <TextInput
+              label="Nome completo"
+              data-testid="signup_fullName"
+              placeholder="Ex: Zé"
+              withAsterisk
+              {...getInputProps("name")}
+            />
+            <TextInput
+              label="Email"
+              data-testid="signup_email"
+              placeholder="Ex: ze@gmail.com"
+              withAsterisk
+              {...getInputProps("email")}
+            />
+            <TextInput
+              type="password"
+              label="Senha"
+              data-testid="signup_password"
+              placeholder="Ex: pass123"
+              withAsterisk
+              {...getInputProps("password")}
+            />
+            <Button
+              fullWidth
+              type="submit"
+              data-testid="signup_submit"
+              loading={loading}
+            >
+              Cadastrar
+            </Button>
+          </form>
         </div>
         {/* <Text align="center" my="md" color={"gray"}>
           ou

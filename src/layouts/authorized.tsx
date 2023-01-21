@@ -1,10 +1,9 @@
 import DefaultHeader from "@/components/header";
 import DefaultNavbar from "@/components/navbar";
-import {
-  AppShell,
-  useMantineTheme,
-} from "@mantine/core";
-import { useState } from "react";
+import { useAuthContext } from "@/contexts/auth.context";
+import { AppShell, useMantineTheme } from "@mantine/core";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 interface AuthorizedProps {
   children?: JSX.Element;
@@ -13,8 +12,18 @@ interface AuthorizedProps {
 export default function Authorized({ children }: AuthorizedProps) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+  const { loginStatus } = useAuthContext();
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (loginStatus == "unlogged") {
+      push("/login");
+    }
+  }, [loginStatus, push]);
+
   return (
     <AppShell
+      data-testid="authorized-layout"
       styles={{
         main: {
           background:

@@ -2,16 +2,20 @@ import "@testing-library/jest-dom";
 import Signup from "../../src/pages/signup";
 import * as Next from "next/router";
 import { render, RenderResult, screen } from "@testing-library/react";
+import auth from "firebase/auth";
 
 describe("Signup page test", () => {
   let component: RenderResult;
-  
+
   beforeAll(() => {
     jest
       .spyOn(Next, "useRouter")
       .mockImplementation(
         () => ({ push: (value: string) => {} } as Next.NextRouter)
       );
+
+    jest.mock("firebase/auth");
+    jest.mock("firebase/app");
   });
 
   beforeEach(() => {

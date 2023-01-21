@@ -1,4 +1,5 @@
 import {
+  createStyles,
   DefaultMantineColor,
   Group,
   Text,
@@ -11,18 +12,32 @@ interface IconButtonProps {
   onClick: (arg?: unknown) => void;
   icon: JSX.Element;
   color: DefaultMantineColor;
+  active?: boolean;
 }
+
+const useStyles = createStyles((theme) => ({
+  active: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.blue[0],
+  },
+}));
 
 export default function IconButton({
   icon,
   label,
   color,
+  active,
   onClick,
 }: IconButtonProps) {
+  const { classes } = useStyles();
+
   return (
     <UnstyledButton
       data-testid="icon-button"
       onClick={onClick}
+      className={active ? classes.active : ""}
       sx={(theme) => ({
         display: "block",
         width: "100%",

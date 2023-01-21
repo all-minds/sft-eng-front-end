@@ -21,3 +21,5 @@ export default class Property {
     this.complement = init.complement;
   }
 }
+
+export type NewProperty = Omit<Property, "id">;

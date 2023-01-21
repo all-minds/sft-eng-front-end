@@ -7,6 +7,7 @@ export interface DefaultNavbarItemProps {
   color: DefaultMantineColor;
   icon: JSX.Element;
   to: string;
+  active?: boolean;
 }
 
 export default function DefaultNavbarItem({

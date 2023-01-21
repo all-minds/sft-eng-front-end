@@ -3,6 +3,8 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { NextPage } from "next";
+import { NotificationsProvider } from "@mantine/notifications";
+import { AuthProvider } from "@/contexts/auth.context";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: JSX.Element) => JSX.Element;
@@ -32,11 +34,14 @@ export default function App(props: AppPropsWithLayout) {
         theme={{
           /** Put your mantine theme override here */
           colorScheme: "light",
-          colors: {},
+          colors: {
+          },
           fontFamily: "Poppins, sans-serif",
         }}
       >
-        {getLayout(<Component {...pageProps} />)}
+        <NotificationsProvider>
+          <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );

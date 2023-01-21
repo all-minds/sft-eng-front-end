@@ -1,14 +1,15 @@
 import Authorized from "@/layouts/authorized";
-import { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <>
-      <div>odas</div>
-    </>
-  );
+  const { replace } = useRouter();
+
+  useEffect(() => {
+    replace("/properties");
+  }, [replace]);
+
+  return <></>;
 }
 
 Home.getLayout = function getLayout(page: JSX.Element) {

@@ -14,7 +14,7 @@ export default function DefaultHeader({
   return (
     <Header height={{ base: 50, md: 70 }} p="md" data-testid="default-header">
       <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+        <MediaQuery largerThan="md" styles={{ display: "none" }}>
           <Burger
             opened={opened}
             onClick={() => setOpened(!opened)}

@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import PropertiesGrid from "@/components/properties-grid";
 import { render, RenderResult } from "@testing-library/react";
+import { generateProperty } from "@/mocks/property";
 
 describe("Properties grid component", () => {
   let component: RenderResult;
@@ -10,7 +11,7 @@ describe("Properties grid component", () => {
   });
 
   it("Should render grid if has at least one property", () => {
-    const populatedComponent = render(<PropertiesGrid properties={[]} />);
+    const populatedComponent = render(<PropertiesGrid properties={[generateProperty()]} />);
 
     const grid = populatedComponent.getByTestId("properties-grid");
 
