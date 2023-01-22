@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMediaQuery } from "@mantine/hooks";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface PropertyDrawer {
   opened: boolean;
@@ -16,6 +16,7 @@ interface PropertyDrawer {
   onClose: () => void;
   onCreateProperty: (newProperty: Omit<NewProperty, "ownerId">) => unknown;
   onUpdateProperty: (property: Property) => unknown;
+  onActiveProperty: (property: Property) => unknown;
 }
 
 type PropertyForm = Omit<NewProperty, "ownerId">;
@@ -26,6 +27,7 @@ export default function PropertyDrawer({
   onClose,
   onCreateProperty,
   onUpdateProperty,
+  onActiveProperty,
 }: PropertyDrawer) {
   const { breakpoints } = useMantineTheme();
   const matches = useMediaQuery(`(min-width: ${breakpoints.md}px)`);
@@ -66,6 +68,7 @@ export default function PropertyDrawer({
     }
 
     onClose();
+    reset();
   };
 
   return (
@@ -121,6 +124,20 @@ export default function PropertyDrawer({
         <Button mt="md" type="submit">
           Salvar
         </Button>
+        {property?.id && (
+          <Button
+            mt="md"
+            ml="md"
+            color={property.active ? "red" : "green"}
+            variant="outline"
+            onClick={() => {
+              onActiveProperty(property);
+              onClose();
+            }}
+          >
+            {property.active ? "Desativar" : "Ativar"}
+          </Button>
+        )}
       </form>
     </Drawer>
   );

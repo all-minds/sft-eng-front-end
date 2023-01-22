@@ -1,5 +1,5 @@
 import { User, onAuthStateChanged } from "firebase/auth";
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { auth } from "@/utils/config";
 
 interface AuthContextProps {
@@ -14,6 +14,7 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+
   const [user, setUser] = useState<User | null>(null);
   const [loginStatus, setLogginStatus] = useState<
     "logged" | "unknown" | "unlogged"
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const getUser = useCallback(() => user, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, loginStatus, setUser, getUser }}>
+    <AuthContext.Provider value={{ user: getUser(), loginStatus, setUser, getUser }}>
       <>{children}</>
     </AuthContext.Provider>
   );

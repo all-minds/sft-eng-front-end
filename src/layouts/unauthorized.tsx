@@ -43,8 +43,7 @@ export default function Unauthorized({ children }: UnauthorizedProps) {
           fluid
           className={classes.brandContainer}
           data-testid="unauthorized_brand-image"
-        >
-        </Container>
+        ></Container>
       </MediaQuery>
     </Flex>
   );

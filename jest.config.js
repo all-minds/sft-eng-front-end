@@ -18,7 +18,7 @@ const customJestConfig = {
   moduleNameMapper: {
     "@/(.*)": "<rootDir>/src/$1",
     "^firebase/auth$": "<rootDir>/__mocks__/firebase-auth.ts",
-    "^firebase/app$": "<rootDir>/__mocks__/firebase-app.ts",
+    "^firebase/app$": "<rootDir>/__mocks__/firebase-app.ts"
   },
 };
 

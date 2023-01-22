@@ -4,7 +4,7 @@ import Property, { NewProperty } from "@/models/property";
 import { ensureNotNull } from "@/utils/ensure-not-null";
 import { showNotification } from "@mantine/notifications";
 
-const useProperties = () => {
+export const useProperties = () => {
   const { user } = useAuthContext();
 
   const fetchAllProperties = async () => {
@@ -13,14 +13,17 @@ const useProperties = () => {
 
     /** API REQUESTS */
     try {
-      const { json } = await fetch(`${process.env.BASE_URI}/properties`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URI}/GetAllPropertiesAsync`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      const data = (await json()) as VendorProperty[];
+      const data = (await response.json()) as VendorProperty[];
 
       return data.map((value) => PropertyAdapter.fromRequest(value));
     } catch (err) {
@@ -33,22 +36,32 @@ const useProperties = () => {
     }
   };
 
-  const createProperty = async (newProperty: NewProperty) => {
+  const createProperty = async (newProperty: Omit<NewProperty, "ownerId">) => {
     const nonNullableUser = ensureNotNull(user);
     const token = await nonNullableUser.getIdToken();
 
     /** API REQUESTS */
     try {
-      await fetch(`${process.env.BASE_URI}/properties`, {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/AddPropertyAsync`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(PropertyAdapter.toRequest(newProperty)),
+        body: JSON.stringify(
+          PropertyAdapter.toRequest({
+            ...newProperty,
+            ownerId: nonNullableUser.uid,
+          })
+        ),
+      });
+      showNotification({
+        message: "Propriedade criada com sucesso!",
+        color: "green",
       });
     } catch (err) {
       showNotification({
-        message: "Não foi possível listar as propriedades owner!",
+        message: "Não foi possível criar propriedade!",
         color: "red",
       });
 
@@ -62,16 +75,24 @@ const useProperties = () => {
 
     /** API REQUESTS */
     try {
-      await fetch(`${process.env.BASE_URI}/properties`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(PropertyAdapter.toRequest(property)),
+      await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URI}/UpdatePropertyAsync/${property.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(PropertyAdapter.toRequest(property)),
+        }
+      );
+      showNotification({
+        message: "Propriedade atualizada com sucesso!",
+        color: "green",
       });
     } catch (err) {
       showNotification({
-        message: "Não foi possível listar as propriedades owner!",
+        message: "Não foi possível atualizar propriedade!",
         color: "red",
       });
 

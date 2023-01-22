@@ -57,8 +57,8 @@ export default function Signup() {
   const { createOwner } = useOwner();
 
   const handleSubmit = async (values: SignupForm) => {
-    await createUser(values);
-    createOwner();
+    const user = await createUser(values);
+    await createOwner(user);
   };
 
   return (

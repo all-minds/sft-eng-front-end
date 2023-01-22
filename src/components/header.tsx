@@ -25,7 +25,7 @@ export default function DefaultHeader({
           />
         </MediaQuery>
 
-        <Text>Application header</Text>
+        <Text>CarbonCredits</Text>
       </div>
     </Header>
   );

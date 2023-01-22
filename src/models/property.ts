@@ -8,6 +8,7 @@ export default class Property {
   readonly state: string;
   readonly zipCode: string;
   readonly complement?: string;
+  readonly active: boolean;
 
   constructor(init: Property) {
     this.id = init.id;
@@ -19,7 +20,8 @@ export default class Property {
     this.state = init.state;
     this.zipCode = init.zipCode;
     this.complement = init.complement;
+    this.active = init.active;
   }
 }
 
-export type NewProperty = Omit<Property, "id">;
+export type NewProperty = Omit<Property, "id" | "active">;

@@ -10,9 +10,10 @@ export interface VendorProperty {
   state: string;
   zip_code: string;
   complement?: string;
+  active: boolean;
 }
 
-export type NewVendorProperty = Omit<VendorProperty, "id">;
+export type NewVendorProperty = Omit<VendorProperty, "id" | "active">;
 
 export class PropertyAdapter {
   static toRequest(
@@ -30,6 +31,11 @@ export class PropertyAdapter {
     zip_code,
     ...property
   }: VendorProperty): Property {
-    return new Property({ ...property, ownerId: owner_id, zipCode: zip_code });
+    return new Property({
+      ...property,
+      ownerId: owner_id,
+      zipCode: zip_code,
+      active: property.active ?? true,
+    });
   }
 }

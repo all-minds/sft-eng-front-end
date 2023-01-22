@@ -1,13 +1,16 @@
 import { Owner } from "@/models/owner";
 
 interface VendorOwner {
-  id: string;
-  email: string;
-  name: string;
+  Id: string;
+  Email: string;
+  Name: string;
+  Cpf: string;
 }
 
+type NewVendorOwner = VendorOwner;
+
 export class OwnerAdapter {
-  static toRequest(owner: Owner): VendorOwner {
-    return { ...owner };
+  static toRequest(owner: Owner): NewVendorOwner {
+    return { Id: owner.id, Email: owner.email, Name: owner.name, Cpf: "Testing" };
   }
 }

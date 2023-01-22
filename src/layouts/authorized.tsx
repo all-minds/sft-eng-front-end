@@ -21,6 +21,7 @@ export default function Authorized({ children }: AuthorizedProps) {
     }
   }, [loginStatus, push]);
 
+
   return (
     <AppShell
       data-testid="authorized-layout"
@@ -39,7 +40,7 @@ export default function Authorized({ children }: AuthorizedProps) {
         <DefaultHeader opened={opened} setOpened={setOpened} theme={theme} />
       }
     >
-      {children}
+      {loginStatus !== 'unknown' && children}
     </AppShell>
   );
 }

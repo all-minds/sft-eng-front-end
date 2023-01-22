@@ -59,7 +59,8 @@ export default function useAuth() {
   }) => {
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem('user', JSON.stringify(user));
     } catch (err) {
       showNotification({
         message: "Não foi possível logar com este usuário",

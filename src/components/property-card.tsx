@@ -28,8 +28,8 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps) {
           {property.name}
         </Text>
         <div>
-          <Badge color="green" variant="light">
-            Ativa
+          <Badge color={property.active ? "green" : "red"} variant="light">
+            {property.active ? "Ativa" : "Inativa"}
           </Badge>
         </div>
       </Group>
