@@ -4,7 +4,7 @@ import Property, { NewProperty } from "@/models/property";
 import { ensureNotNull } from "@/utils/ensure-not-null";
 import { showNotification } from "@mantine/notifications";
 
-export const useProperties = () => {
+const useProperties = () => {
   const { user } = useAuthContext();
 
   const fetchAllProperties = async () => {
